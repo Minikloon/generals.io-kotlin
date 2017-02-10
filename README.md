@@ -50,16 +50,51 @@ class RandBot(game: Game, self: Player, bot: GeneralsBot) : GameAi(game, self, b
     }
 }
 ~~~~
-This AI has the same behavior as the one at [http://dev.generals.io/api#tutorial](http://dev.generals.io/api#tutorial). All of the information available through the API can be accessed through GameAi's Game object.
+This AI has the same behavior as the one at [http://dev.generals.io/api#tutorial](http://dev.generals.io/api#tutorial).
+
+The game's state available through the API can be accessed using GameAi's game property.
 
 Then initialize your bot:
 ~~~~
-val userId = "SyfAzpGuy"
+val userId = "USER_ID"
 val username = "Kloon Bot"
 val joinQueue = JoinQueuePrivate("kloontest")
-GeneralsBot.connect(userId, username, joinQueue, ::MyAi).thenRun {
+GeneralsBot.connect(userId, username, joinQueue, ::RandBot).thenRun {
     println("Connected!")
     println(joinQueue.link)
 }
 ~~~~
+USER_ID can be replaced with any string. What matters is that only you knows it. That id is used by the game to identify your bot in the leaderboard. Username can also be any string you want. The above code will create a bot, join the game named "kloontest" and the game's link will be printed to the console.
+
 The third parameter of GeneralsBot::connect can take either a JoinQueue instance of a lambda to a JoinQueue instance. The latter can be used to implement logic on how to pick the queue your bot will play in.
+
+# Java example
+~~~~
+public class BotExampleJava {
+    public static class MyAi extends GameAi {
+        MyAi(Game game, Player self, GeneralsBot bot) {
+            super(game, self, bot);
+        }
+
+        @NotNull
+        @Override
+        public Order computeTurn() {
+            return new NoMove();
+        }
+    }
+    
+    public static void main(String[] args) {
+        String userId = "YOUR_ID";
+        String username = "Kloon Bot";
+        
+        String gameId = "GAME_ID";
+        JoinQueuePrivate joinQueue = new JoinQueuePrivate(gameId);
+        
+        GeneralsBot.Companion.connect(userId, username, joinQueue, MyAi::new).thenRun(() -> {
+            System.out.println("Connected!");
+            System.out.println(joinQueue.getLink());
+        });
+    }
+}
+
+~~~~
