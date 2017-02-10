@@ -66,7 +66,7 @@ GeneralsBot.connect(userId, username, joinQueue, ::RandBot).thenRun {
 ~~~~
 USER_ID can be replaced with any string. What matters is that only you knows it. That id is used by the game to identify your bot in the leaderboard. Username can also be any string you want. The above code will create a bot, join the game named "kloontest" and the game's link will be printed to the console.
 
-The third parameter of GeneralsBot::connect can take either a JoinQueue instance of a lambda to a JoinQueue instance. The latter can be used to implement logic on how to pick the queue your bot will play in.
+The third parameter of GeneralsBot::connect can take either a JoinQueue instance or a lambda returning a JoinQueue. The latter can be used to implement logic on how to pick the queue your bot will play in.
 
 # Java example
 ~~~~
